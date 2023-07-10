@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.yog.passwordmanager.db.PasswordEntry
 import com.yog.passwordmanager.presentation.AddUpdatePasswordScreen
+import com.yog.passwordmanager.presentation.LandingScreen
 import com.yog.passwordmanager.presentation.PasswordEntriesScreen
 import com.yog.passwordmanager.ui.theme.PasswordManagerTheme
 import com.yog.passwordmanager.util.Screen
@@ -33,8 +34,12 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.PasswordListScreen.route
+                        startDestination = Screen.LandingScreen.route
                     ) {
+
+                        composable(route = Screen.LandingScreen.route) {
+                            LandingScreen()
+                        }
 
                         composable(route = Screen.PasswordListScreen.route) {
                             PasswordEntriesScreen(navController)
