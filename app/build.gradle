@@ -90,6 +90,9 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.5.0"
 
+    //Viewpager + Tab
+    implementation "com.google.accompanist:accompanist-pager:0.12.0"
+
 
 
     /*constraints {

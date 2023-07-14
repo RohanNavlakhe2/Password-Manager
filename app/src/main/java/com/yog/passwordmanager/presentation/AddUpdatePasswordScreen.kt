@@ -16,7 +16,7 @@ import com.yog.passwordmanager.presentation.components.PasswordManagerPasswordTe
 import com.yog.passwordmanager.presentation.components.PasswordManagerTextField
 import com.yog.passwordmanager.presentation.state.TextFieldState
 import com.yog.passwordmanager.presentation.viewmodel.AddUpdatePasswordViewModel
-import com.yog.passwordmanager.ui.theme.Green
+
 
 @Composable
 fun AddUpdatePasswordScreen(
@@ -27,7 +27,7 @@ fun AddUpdatePasswordScreen(
         Modifier
             .fillMaxSize()
             .padding(25.dp)
-            .border(1.dp, Green, RoundedCornerShape(10.dp))
+            .border(1.dp, MaterialTheme.colors.primary,RoundedCornerShape(10.dp))
             .padding(20.dp)
     ) {
 
@@ -76,7 +76,7 @@ fun AddUpdatePasswordScreen(
                 navController.navigateUp()
             },
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = Green
+                backgroundColor = MaterialTheme.colors.primary
             )
         ) {
             Text("Save", color = Color.White)

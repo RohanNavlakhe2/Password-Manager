@@ -37,9 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yog.passwordmanager.R
 import com.yog.passwordmanager.presentation.viewmodel.PasswordEntriesViewModel
-import com.yog.passwordmanager.ui.theme.Green
 import com.yog.passwordmanager.util.Screen
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun PasswordEntriesScreen(
@@ -57,7 +55,7 @@ fun PasswordEntriesScreen(
         FloatingActionButton(
             onClick = {
                 navController.navigate(Screen.AddUpdatePasswordScreen.route)
-            }, backgroundColor = Green
+            }, backgroundColor = MaterialTheme.colors.primary
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -78,7 +76,7 @@ fun PasswordEntriesScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Green)
+                        .background(MaterialTheme.colors.primary )
                         .padding(dimensionResource(id = R.dimen.dimen20dp))
                 ) {
                     Text(
@@ -147,12 +145,12 @@ fun PasswordEntriesScreen(
                             Column(modifier = Modifier
                                 .padding(15.dp)
                                 .fillMaxWidth()
-                                .border(0.9.dp, Color.Green, RoundedCornerShape(10.dp))
+                                .border(0.9.dp, color = MaterialTheme.colors.primary , RoundedCornerShape(10.dp))
                                 .clickable(
                                     interactionSource = remember {
                                         MutableInteractionSource()
                                     }, indication = rememberRipple(
-                                        bounded = true, radius = 120.dp, color = Green
+                                        bounded = true, radius = 120.dp, color = MaterialTheme.colors.primary
                                     )
                                 ) {
 

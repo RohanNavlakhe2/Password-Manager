@@ -4,9 +4,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -20,7 +20,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.yog.passwordmanager.ui.theme.Green
 
 @Composable
 fun PasswordManagerPasswordTextField(
@@ -38,11 +37,11 @@ fun PasswordManagerPasswordTextField(
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, Green, RoundedCornerShape(10.dp)),
+            .border(1.dp, MaterialTheme.colors.primary , RoundedCornerShape(10.dp)),
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = Green,
+            cursorColor = MaterialTheme.colors.primary ,
             backgroundColor = Color.White
         ),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
