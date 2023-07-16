@@ -1,4 +1,4 @@
-package com.yog.passwordmanager.domain
+package com.yog.passwordmanager.domain.model
 
 data class PasswordData(
     val id:Int? = null,

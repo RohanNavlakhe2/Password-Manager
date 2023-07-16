@@ -9,29 +9,34 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.yog.passwordmanager.presentation.components.LoginPasswordTextField
 import com.yog.passwordmanager.presentation.components.LoginTextField
+import com.yog.passwordmanager.presentation.viewmodel.RegisterViewModel
 import com.yog.passwordmanager.ui.theme.Dimens
 import com.yog.passwordmanager.ui.theme.LoginBg
+import com.yog.passwordmanager.util.AppButton
 import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun LandingScreen() {
+fun LandingScreen(
+
+) {
     Box(
         Modifier
             .fillMaxSize()
@@ -47,23 +52,70 @@ fun LandingScreen() {
 }
 
 @Composable
-fun RegisterComponent() {
-    Column() {
-        LoginTextField(value = "", onValueChange = {}, hint = "Name")
-        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
-        LoginTextField(value = "", onValueChange = {}, hint = "User Name")
-        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
-        LoginPasswordTextField(value = "", onValueChange = {}, hint = "Password", false, {})
-        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
-        LoginPasswordTextField(value = "", onValueChange = {}, hint = "Confirm Password", false, {})
-        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing + 5.dp))
-        Button(onClick = {
+fun RegisterComponent(
+    viewModel: RegisterViewModel = hiltViewModel()
+) {
 
-        }) {
-          Text("Register")
-        }
+    val userNameState = viewModel.userNameStateFlow.collectAsState()
+    val passwordState = viewModel.passwordStateFlow.collectAsState()
+    val confirmPasswordState = viewModel.confirmPasswordStateFlow.collectAsState()
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
 
+        LoginTextField(value = userNameState.value.fieldValue, onValueChange = {
+            viewModel.onEvent(RegisterViewModel.RegisterEvent.UsernameChanged(it))
+        }, hint = "User Name", userNameState.value.error, userNameState.value.errorText)
+
+        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
+
+        LoginPasswordTextField(value = passwordState.value.fieldValue, onValueChange = {
+            viewModel.onEvent(RegisterViewModel.RegisterEvent.PasswordChanged(it))
+        }, hint = "Password", passwordState.value.isPasswordVisible, {
+            viewModel.onEvent(RegisterViewModel.RegisterEvent.TogglePasswordVisibility)
+        }, passwordState.value.error, passwordState.value.errorText)
+
+        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
+
+        LoginPasswordTextField(value = confirmPasswordState.value.fieldValue, onValueChange = {
+            viewModel.onEvent(RegisterViewModel.RegisterEvent.ConfirmPasswordChanged(it))
+        }, hint = "Confirm Password", confirmPasswordState.value.isPasswordVisible, {
+            viewModel.onEvent(RegisterViewModel.RegisterEvent.ToggleConfirmPasswordVisibility)
+        }, confirmPasswordState.value.error, confirmPasswordState.value.errorText)
+
+        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing + 10.dp))
+
+        AppButton("Register", {})
+
+    }
+}
+
+@Composable
+fun LoginComponent(
+    viewModel: RegisterViewModel = hiltViewModel()
+) {
+
+    val userNameState = viewModel.userNameStateFlow.collectAsState()
+    val passwordState = viewModel.passwordStateFlow.collectAsState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        LoginTextField(
+            value = userNameState.value.fieldValue, onValueChange = {
+
+            }, hint = "User Name",
+            userNameState.value.error, userNameState.value.errorText
+        )
+        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
+        LoginPasswordTextField(value = passwordState.value.fieldValue, onValueChange = {}, hint = "Password", false, {},
+            passwordState.value.error, passwordState.value.errorText
+        )
+        Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing + 10.dp))
+        AppButton("Login", {})
     }
 }
 
@@ -75,7 +127,7 @@ fun RegisterLoginTab(modifier: Modifier = Modifier) {
     val tabs = listOf("Register", "Login")
 
     val pagerState = rememberPagerState(
-        pageCount = tabs.size
+        pageCount = tabs.size,
     )
 
     val tabIndex = pagerState.currentPage
@@ -83,7 +135,11 @@ fun RegisterLoginTab(modifier: Modifier = Modifier) {
     Column(modifier) {
         TabRow(
             selectedTabIndex = tabIndex,
-            modifier = Modifier.border(1.dp, MaterialTheme.colors.primary, RoundedCornerShape(10.dp)),
+            modifier = Modifier.border(
+                1.dp,
+                MaterialTheme.colors.primary,
+                RoundedCornerShape(10.dp)
+            ),
             indicator = {},
             backgroundColor = Color.Transparent,
             divider = {}
@@ -98,9 +154,12 @@ fun RegisterLoginTab(modifier: Modifier = Modifier) {
                     },
                     modifier = Modifier
                         .background(
-                            shape = if(index == 0)  RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp)
-                        else RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
-                            color = if(index == tabIndex) MaterialTheme.colors.primary else Color.White
+                            shape = if (index == 0) RoundedCornerShape(
+                                topStart = 10.dp,
+                                bottomStart = 10.dp
+                            )
+                            else RoundedCornerShape(topEnd = 10.dp, bottomEnd = 10.dp),
+                            color = if (index == tabIndex) MaterialTheme.colors.primary else Color.White
                         ),
                     text = {
                         Text(
@@ -113,10 +172,11 @@ fun RegisterLoginTab(modifier: Modifier = Modifier) {
         }
         Spacer(modifier = Modifier.height(20.dp))
         HorizontalPager(state = pagerState) {
-            if (pagerState.currentPage == 0) {
+            //if (pagerState.currentPage == 0) {
+            if (it == 0) {
                 RegisterComponent()
             } else if (pagerState.currentPage == 1) {
-                Text("Login")
+                LoginComponent()
             }
         }
     }

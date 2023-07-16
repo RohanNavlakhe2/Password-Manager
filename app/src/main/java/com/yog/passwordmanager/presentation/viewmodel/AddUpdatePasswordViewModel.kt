@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yog.passwordmanager.db.PasswordEntry
-import com.yog.passwordmanager.domain.PasswordManagerRepository
+import com.yog.passwordmanager.domain.repository.PasswordManagerRepository
 import com.yog.passwordmanager.presentation.state.PasswordFieldState
 import com.yog.passwordmanager.presentation.state.TextFieldState
 import dagger.hilt.android.lifecycle.HiltViewModel

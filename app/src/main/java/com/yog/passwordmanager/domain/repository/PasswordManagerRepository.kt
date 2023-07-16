@@ -1,6 +1,7 @@
-package com.yog.passwordmanager.domain
+package com.yog.passwordmanager.domain.repository
 
 import com.yog.passwordmanager.db.PasswordEntry
+import com.yog.passwordmanager.domain.model.PasswordData
 import kotlinx.coroutines.flow.Flow
 
 interface PasswordManagerRepository {

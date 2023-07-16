@@ -3,16 +3,14 @@ package com.yog.passwordmanager.data
 import com.yog.passwordmanager.db.PasswordEntry
 import com.yog.passwordmanager.db.PasswordManagerDao
 import com.yog.passwordmanager.db.toPasswordData
-import com.yog.passwordmanager.domain.PasswordData
-import com.yog.passwordmanager.domain.PasswordManagerRepository
+import com.yog.passwordmanager.domain.model.PasswordData
+import com.yog.passwordmanager.domain.repository.PasswordManagerRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 class PasswordManagerRepoImpl(
     private val dao:PasswordManagerDao
-):PasswordManagerRepository {
+): PasswordManagerRepository {
 
     /*override fun getPasswords(): Flow<List<PasswordEntry>> {
        return dao.getPasswords()

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.yog.passwordmanager.data.PasswordManagerRepoImpl
 import com.yog.passwordmanager.db.PasswordManagerDatabase
-import com.yog.passwordmanager.domain.PasswordManagerRepository
+import com.yog.passwordmanager.domain.repository.PasswordManagerRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +29,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePasswordManageRepository(database: PasswordManagerDatabase):PasswordManagerRepository{
+    fun providePasswordManageRepository(database: PasswordManagerDatabase): PasswordManagerRepository {
         return PasswordManagerRepoImpl(database.passwordManagerDao)
     }
 

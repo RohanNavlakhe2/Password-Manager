@@ -2,7 +2,7 @@ package com.yog.passwordmanager.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.yog.passwordmanager.domain.PasswordData
+import com.yog.passwordmanager.domain.model.PasswordData
 
 @Entity
 data class PasswordEntry(
