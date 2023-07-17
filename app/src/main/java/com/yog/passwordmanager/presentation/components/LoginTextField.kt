@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.yog.passwordmanager.ui.theme.Dimens.errorFieldTextSize
 import com.yog.passwordmanager.ui.theme.Dimens.errorTextSpacing
 
 @Composable
@@ -45,7 +47,11 @@ fun LoginTextField(
             ),
         )
         Spacer(Modifier.height(errorTextSpacing))
-        if(shouldShowError) Text(errorText, color = MaterialTheme.colors.error)
+        if(shouldShowError) Text(errorText,
+            color = MaterialTheme.colors.error,
+            fontSize = errorFieldTextSize,
+            modifier = Modifier.padding(start = 5.dp)
+        )
     }
 
 }

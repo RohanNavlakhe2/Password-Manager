@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -67,7 +68,11 @@ fun LoginPasswordTextField(
 
         )
         Spacer(Modifier.height(Dimens.errorTextSpacing))
-        if(shouldShowError) Text(errorText, color = MaterialTheme.colors.error)
+        if(shouldShowError) Text(errorText,
+            color = MaterialTheme.colors.error,
+            fontSize = Dimens.errorFieldTextSize,
+            modifier = Modifier.padding(start = 5.dp)
+        )
     }
 
 }

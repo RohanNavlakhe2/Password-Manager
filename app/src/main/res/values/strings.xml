@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Password Manager</string>
     <string name="Save">Save</string>
+    <string name="password_requirement">At least (8 chars, 1 [upper, lower case, digit, symbol])</string>
+    <string name="password_not_empty">Password cannot be empty</string>
+    <string name="confirm_password_requirement">Password and Confirm Password should match</string>
+    <string name="username_requirement">Username cannot be empty</string>
+    <string name="empty" />
 </resources>

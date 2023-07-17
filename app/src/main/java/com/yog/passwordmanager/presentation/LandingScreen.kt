@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,6 +27,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.yog.passwordmanager.presentation.components.LoginPasswordTextField
 import com.yog.passwordmanager.presentation.components.LoginTextField
+import com.yog.passwordmanager.presentation.viewmodel.LoginViewModel
 import com.yog.passwordmanager.presentation.viewmodel.RegisterViewModel
 import com.yog.passwordmanager.ui.theme.Dimens
 import com.yog.passwordmanager.ui.theme.LoginBg
@@ -65,9 +67,15 @@ fun RegisterComponent(
             .fillMaxSize()
     ) {
 
-        LoginTextField(value = userNameState.value.fieldValue, onValueChange = {
-            viewModel.onEvent(RegisterViewModel.RegisterEvent.UsernameChanged(it))
-        }, hint = "User Name", userNameState.value.error, userNameState.value.errorText)
+        LoginTextField(
+            value = userNameState.value.fieldValue,
+            onValueChange = {
+                viewModel.onEvent(RegisterViewModel.RegisterEvent.UsernameChanged(it))
+            },
+            hint = "User Name",
+            userNameState.value.error,
+            stringResource(id = userNameState.value.errorTextId)
+        )
 
         Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
 
@@ -75,26 +83,41 @@ fun RegisterComponent(
             viewModel.onEvent(RegisterViewModel.RegisterEvent.PasswordChanged(it))
         }, hint = "Password", passwordState.value.isPasswordVisible, {
             viewModel.onEvent(RegisterViewModel.RegisterEvent.TogglePasswordVisibility)
-        }, passwordState.value.error, passwordState.value.errorText)
+        }, passwordState.value.error, stringResource(id = passwordState.value.errorTextId))
 
         Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
 
-        LoginPasswordTextField(value = confirmPasswordState.value.fieldValue, onValueChange = {
-            viewModel.onEvent(RegisterViewModel.RegisterEvent.ConfirmPasswordChanged(it))
-        }, hint = "Confirm Password", confirmPasswordState.value.isPasswordVisible, {
-            viewModel.onEvent(RegisterViewModel.RegisterEvent.ToggleConfirmPasswordVisibility)
-        }, confirmPasswordState.value.error, confirmPasswordState.value.errorText)
+        LoginPasswordTextField(
+            value = confirmPasswordState.value.fieldValue,
+            onValueChange = {
+                viewModel.onEvent(RegisterViewModel.RegisterEvent.ConfirmPasswordChanged(it))
+            },
+            hint = "Confirm Password",
+            confirmPasswordState.value.isPasswordVisible,
+            {
+                viewModel.onEvent(RegisterViewModel.RegisterEvent.ToggleConfirmPasswordVisibility)
+            },
+            confirmPasswordState.value.error,
+            stringResource(id = confirmPasswordState.value.errorTextId)
+        )
 
         Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing + 10.dp))
 
-        AppButton("Register", {})
-
+        AppButton("Register") {
+            viewModel.onEvent(
+                RegisterViewModel.RegisterEvent.Validate(
+                    userNameState.value.fieldValue,
+                    passwordState.value.fieldValue,
+                    confirmPasswordState.value.fieldValue
+                )
+            )
+        }
     }
 }
 
 @Composable
 fun LoginComponent(
-    viewModel: RegisterViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
 
     val userNameState = viewModel.userNameStateFlow.collectAsState()
@@ -106,16 +129,31 @@ fun LoginComponent(
     ) {
         LoginTextField(
             value = userNameState.value.fieldValue, onValueChange = {
-
+                viewModel.onEvent(LoginViewModel.LoginEvent.UsernameChanged(it))
             }, hint = "User Name",
-            userNameState.value.error, userNameState.value.errorText
+            userNameState.value.error, stringResource(id = userNameState.value.errorTextId)
         )
         Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing))
-        LoginPasswordTextField(value = passwordState.value.fieldValue, onValueChange = {}, hint = "Password", false, {},
-            passwordState.value.error, passwordState.value.errorText
+        LoginPasswordTextField(
+            value = passwordState.value.fieldValue,
+            onValueChange = {
+                viewModel.onEvent(LoginViewModel.LoginEvent.PasswordChanged(it))
+            },
+            hint = "Password",
+            passwordState.value.isPasswordVisible,
+            { viewModel.onEvent(LoginViewModel.LoginEvent.TogglePasswordVisibility)},
+            passwordState.value.error,
+            stringResource(id = passwordState.value.errorTextId)
         )
         Spacer(modifier = Modifier.height(Dimens.FormFieldVerticalSpacing + 10.dp))
-        AppButton("Login", {})
+        AppButton("Login") {
+            viewModel.onEvent(
+                LoginViewModel.LoginEvent.Validate(
+                    userNameState.value.fieldValue,
+                    passwordState.value.fieldValue
+                )
+            )
+        }
     }
 }
 
